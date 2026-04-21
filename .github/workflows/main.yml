@@ -1,0 +1,21 @@
+name: First Pipeline
+on: 
+  push:
+    branches: ["main"]
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6.0.2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-artifact@v7.0.1
+        with:
+          name: dist
+          path: dist
+      
+          
