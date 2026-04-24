@@ -1,7 +1,5 @@
 name: First Pipeline
-on: 
-  push:
-    branches: ["main"]
+on: workflow_dispatch
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -17,7 +15,7 @@ jobs:
       - run: cp package.json dist/
       - uses: actions/upload-artifact@v7.0.1
         with:
-          name: dist
+          name: webapp
           path: dist
   test:
     runs-on: ubuntu-22.04
@@ -43,7 +41,19 @@ jobs:
           node-version: 18
       - run: npm ci
       - run: npm run lint
-  
+  deploy:
+    runs-on: ubuntu-22.04
+    needs: code_quality
+    steps:
+      - uses: actions/download-artifact@v3.1.0
+        with:
+          name: webapp
+      - name: Deploy to Azure web app
+        uses: Azure/webapps-deploy@v2.2.19
+        with:
+          app-name: mygithubapp
+          publish-profile:  
+          
           
       
       
