@@ -52,7 +52,8 @@ jobs:
         uses: Azure/webapps-deploy@v2.2.19
         with:
           app-name: mygithubapp
-          publish-profile:  
+          publish-profile:  ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE}}
+          package: .
           
           
       
